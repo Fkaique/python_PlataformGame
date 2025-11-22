@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./",
+        "./pgzero_config.py"
+    ],
+    "python.analysis.useLibraryCodeForTypes": true
+}
