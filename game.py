@@ -1,8 +1,6 @@
-
 from level import *
 from player import Player
 from utils import Utils
-
 
 WIDTH = 800
 HEIGHT = 600
@@ -10,15 +8,15 @@ SPEED = 3
 RIGHT_BORDER = 600
 LEFT_BORDER = 200
 
+# Audio
+
 on_music = True
 on_sound = True
 icon_music = images.load("icon_music_on")
 icon_sound = images.load("icon_sound_on")
 music.play("music")
 rect_music = Rect((WIDTH-icon_music.get_width()-50,50),(32,32))
-
 rect_sound = Rect((WIDTH-icon_sound.get_width()-100,50),(32,32))
-
 
 game_state = "menu"
 
@@ -43,6 +41,7 @@ current_level = 0
 
 frame = 0
 
+# Controller
 start = Rect((300,250),(200,80))
 end = Rect((320,350),(160,60))
 restart = Rect((300,250),(200,80))
@@ -89,6 +88,7 @@ def draw():
         screen.draw.rect(end, "black")
         img = images.load("player")
         screen.blit("player", ((WIDTH - img.get_width())//2, 50))
+        screen.draw.text("Ghost Chase",center=(400,170), color="#2b2e02",fontsize=100)
         screen.draw.text("Iniciar",center=(400,290), color="black", fontsize=35)
         screen.draw.text("Sair",center=(400,380), color="red", fontsize=30)
         icon_music = images.load("icon_music_on") if on_music else images.load("icon_music_off")
@@ -113,7 +113,6 @@ def draw():
         screen.draw.text("Sair",center=(400,380), color="red", fontsize=30)
     elif game_state=="start":
         screen.fill("#63BDD6")
-        # screen.blit("bg", (-camera_x, 0))
         draw_actor(player.body)
         screen.draw.text(f"${player.score}", (50,50),fontsize=30, color="yellow")
         screen.draw.text(f"P - Pause R - Restart", center=(WIDTH//2,60), color="black")
@@ -207,18 +206,15 @@ def update():
             Utils.move_and_collide(e,levels,current_level)
             
             block = Utils.place_meeting(e.body.x,e.body.y,blocks,e)
-            
+                       
             if block:
                 e.direction *= -1
+                
         fatals = levels[current_level].fatals
         fatal = Utils.place_meeting(player.body.x,player.body.y,fatals,player)
         if fatal:
             player = restart_level(levels,current_level)
-        # blocks = levels[current_level].blocks
-
-        # suavização (quanto menor o número, mais suave)
-        player_screen_x = player.body.x - camera_x
-        
+        player_screen_x = player.body.x - camera_x 
         if player_screen_x > RIGHT_BORDER:
             camera_x += player_screen_x - RIGHT_BORDER
         
