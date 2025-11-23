@@ -1,24 +1,21 @@
 from pgzero.builtins import Actor
 
-class Player:
+class Enemy:
     def __init__(self, image, x, y):
         self.body = Actor(image, (x, y))
-        self.score = 0
         self.spd_h=0
         self.spd_v=0
-        self.spd=3
+        self.spd=2
         self.on_ground=False 
-        self.jump_force=-14
-        self.direction=0
+        self.direction=-1
         self.sprites = {
-            "idle_right" : ["player_idle_right_1","player_idle_right_2"],
-            "idle_left" : ["player_idle_left_1","player_idle_left_2"],
-            "run_right" : ["player_run_right_1","player_run_right_2","player_run_right_3","player_run_right_4"],
-            "run_left" : ["player_run_left_1","player_run_left_2","player_run_left_3","player_run_left_4"],
+            "right" : ["enemy_right_1","enemy_right_2"],
+            "left" : ["enemy_left_1","enemy_left_2"],
         }
         self.frame_index=0
         self.frame_counter=0
-    def animate(self, state,fps):
+        
+    def animate(self, state, fps):
         frames = self.sprites[state]
         update_per_frame = int(60/fps)
         self.frame_counter+=1
@@ -28,4 +25,5 @@ class Player:
             self.frame_index = (self.frame_index+1)%len(self.sprites[state])
             self.body.image = frames[self.frame_index]
             return True
-        return False 
+        return False
+        
